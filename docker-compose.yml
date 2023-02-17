@@ -1,0 +1,24 @@
+services:
+  server:
+    image: backend
+    ports:
+      - "8080:8080"
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/transactions?useSSL=false&allowPublicKeyRetrieval=true
+    networks:
+      - springmysql-net
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: arm64v8/mysql
+    networks:
+      - springmysql-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=transactions
+      - MYSQL_USER=sa
+      - MYSQL_PASSWORD=1234
+
+networks:
+  springmysql-net:
