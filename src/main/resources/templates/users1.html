@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User List</title>
+    <link rel="stylesheet" href="/css/users.css"/>
+    <script src="/js/update.js"></script>
+    <script src="/js/transfer.js"></script>
+</head>
+<body>
+<h1>User List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Balance</th>
+        <th>Update Balance</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:id="'balance-' + ${user.id}" th:text="${user.balance.balance}"></td>
+        <td>
+            <input th:type="number" th:id="'update-balance-' + ${user.id}">
+            <button th:onclick="'updateBalance(' + ${user.id} + ');'">Update</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h2>Transfer Money Between Users</h2>
+    <form id="transfer-form" th:action="@{/transfer}" method="post">
+        <label for="sender-id">Sender ID:</label>
+        <input type="number" id="sender-id" name="sender-id"><br><br>
+        <label for="recipient-id">Recipient ID:</label>
+        <input type="number" id="recipient-id" name="recipient-id"><br><br>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount"><br><br>
+        <button type="submit" th:onclick="javascript:transferMoney();">Transfer</button>
+    </form>
+
+<div class="return-button">
+    <button onclick="location.href='/'">Return to Main Page</button>
+</div>
+</body>
+</html>
+
+

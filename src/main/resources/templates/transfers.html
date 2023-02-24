@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transfer List</title>
+    <link rel="stylesheet" href="/css/users.css"/>
+</head>
+<body>
+<h1>Transfer List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>FROM_ID</th>
+        <th>TO_ID</th>
+        <th>AMOUNT</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="transfer : ${transfers}">
+        <td th:text="${transfer.userFromId}"></td>
+        <td th:text="${transfer.userToId}"></td>
+        <td th:text="${transfer.amount}"></td>
+    </tr>
+    </tbody>
+</table>
+<div class="return-button">
+    <button onclick="location.href='/'">Return to Main Page</button>
+</div>
+</body>
+</html>

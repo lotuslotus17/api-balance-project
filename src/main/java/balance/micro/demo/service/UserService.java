@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Transactional
@@ -26,20 +27,21 @@ public class UserService {
     @Autowired
     private TransferRepository transferRepository;
 
-    public void createUser(User user) {
+    public User createUser(User user) {
         repository.save(user);
         if(Objects.isNull(user.getBalance())) {
             Balance balance = new Balance(0, user);
             Balance saved = balanceRepository.save(balance);
             user.setBalance(saved);
         }
+        return user;
     }
 
     public User findUserById(Long id){
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
-    public void transferMoneyBetweenUsers(Long userFromId, Long userToId, int amount){
+    public Transfer transferMoneyBetweenUsers(Long userFromId, Long userToId, int amount){
         User userFrom = repository.getReferenceById(userFromId);
         User userTo = repository.getReferenceById(userToId);
         if(userFrom.checkBalance(amount)){
@@ -49,8 +51,9 @@ public class UserService {
             userToBalance.setBalance(userToBalance.getBalance() + amount);
             balanceRepository.save(userFromBalance);
             balanceRepository.save(userToBalance);
-            Transfer transfer = new Transfer(userFromId, userToId, amount);
+            Transfer transfer = new Transfer(userFromId, userToId, amount, userFromBalance.getBalance(), userToBalance.getBalance());
             transferRepository.save(transfer);
+            return transfer;
         }
         else {
             throw new NotEnoughMoneyException();

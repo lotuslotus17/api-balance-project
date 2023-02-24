@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Created</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/usercreated.css}">
+</head>
+<body>
+<div class="user-details">
+    <h1>User Created</h1>
+    <p><strong>Name:</strong> <span th:text="${userDto.name}"></span></p>
+    <p><strong>Id:</strong> <span th:text="${userDto.id}"></span></p>
+    <p><strong>Created:</strong> <span th:text="${userDto.found}"></span></p>
+    <div class="return-button">
+        <button onclick="location.href='/'">Return to Main Page</button>
+    </div>
+</div>
+</body>
+</html>

@@ -20,6 +20,12 @@ public class Transfer {
     @Column(name = "user_from_id")
     private Long userToId;
 
+    @Column(name = "user_from_balance")
+    private int userFromBalance;
+
+    @Column(name = "user_to_balance")
+    private int userToBalance;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumns({
             @JoinColumn(name = "user_to_id", referencedColumnName = "id"),
@@ -31,6 +37,31 @@ public class Transfer {
 
     @JsonIgnore
     private Long time;
+
+    public int getUserFromBalance() {
+        return userFromBalance;
+    }
+
+    public void setUserFromBalance(int userFromBalance) {
+        this.userFromBalance = userFromBalance;
+    }
+
+    public int getUserToBalance() {
+        return userToBalance;
+    }
+
+    public void setUserToBalance(int userToBalance) {
+        this.userToBalance = userToBalance;
+    }
+
+    public Transfer(Long userFromId, Long userToId, int amount, int userFromBalance, int userToBalance) {
+        this.userFromId = userFromId;
+        this.userToId = userToId;
+        this.amount = amount;
+        this.userFromBalance = userFromBalance;
+        this.userToBalance = userToBalance;
+        this.time = Time.timestamp.getTime();
+    }
 
     public Transfer(){};
 
