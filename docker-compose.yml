@@ -1,24 +1,25 @@
 services:
   server:
-    image: backend
+    build: .
     ports:
       - "8080:8080"
     environment:
-      - spring.datasource.url=jdbc:mysql://mysqldb:3306/transactions?useSSL=false&allowPublicKeyRetrieval=true
+      - spring.datasource.url=jdbc:postgresql://pgdb:5432/transactions
     networks:
-      - springmysql-net
+      - springpgdb-net
     depends_on:
-      - mysqldb
+      - pgdb
 
-  mysqldb:
-    image: arm64v8/mysql
+  pgdb:
+    image: postgres
+    ports:
+      - "5432:5432"
     networks:
-      - springmysql-net
+      - springpgdb-net
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=transactions
-      - MYSQL_USER=sa
-      - MYSQL_PASSWORD=1234
+      - POSTGRES_DB=transactions
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
 
 networks:
-  springmysql-net:
+  springpgdb-net:
